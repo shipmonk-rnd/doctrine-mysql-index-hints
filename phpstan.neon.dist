@@ -1,0 +1,13 @@
+includes:
+    - phar://phpstan.phar/conf/config.levelmax.neon
+    - phar://phpstan.phar/conf/bleedingEdge.neon
+    - ./vendor/phpstan/phpstan-strict-rules/rules.neon
+
+parameters:
+    paths:
+        - src
+        - tests
+    tmpDir: %rootDir%/../../../cache/phpstan/
+    checkMissingCallableSignature: true
+    checkUninitializedProperties: true
+    checkTooWideReturnTypesInProtectedAndPublicMethods: true

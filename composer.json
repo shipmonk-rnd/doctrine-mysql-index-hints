@@ -1,0 +1,34 @@
+{
+    "name": "shipmonk/doctrine-mysql-index-hints",
+    "description": "Custom SQL walker for Doctrine allowing usage of MySQL index hints without need of native queries",
+    "license": ["MIT"],
+    "require": {
+        "php": ">=7.1.0",
+        "doctrine/orm": ">=2.5.0",
+        "nette/utils": ">=2.4.0"
+    },
+    "require-dev": {
+        "editorconfig-checker/editorconfig-checker": "^10.2",
+        "phpstan/phpstan": "^0.12.94",
+        "phpstan/phpstan-phpunit": "^0.12.22",
+        "phpstan/phpstan-strict-rules": "^0.12.10",
+        "phpunit/phpunit": "^9.5",
+        "slevomat/coding-standard": "^7.0"
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "autoload": {
+        "psr-4": {
+            "ShipMonk\\": "src/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "ShipMonk\\": "tests/"
+        }
+    },
+    "scripts": {
+        "check": "ec && phpcs && phpstan analyse -vvv && phpunit -vvv tests"
+    }
+}
