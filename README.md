@@ -37,12 +37,11 @@ See the used entity (it makes sense to put table names and index names into publ
 ```php
 /**
  * @ORM\Table(
- *     name=User::TABLE_NAME
+ *     name=User::TABLE_NAME,
  *     indexes={
- *          @ORM\Index(name=User::IDX_FOO, columns={"id"}),
+ *          @ORM\Index(name=User::IDX_FOO, columns={"id"})
  *     }
  * )
- *  )
  * @ORM\Entity
  */
 class User
