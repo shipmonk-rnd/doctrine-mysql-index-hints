@@ -59,7 +59,6 @@
     <rule ref="Generic.PHP.DisallowAlternativePHPTags"/>
     <rule ref="Generic.PHP.DisallowShortOpenTag"/>
     <rule ref="Generic.PHP.ForbiddenFunctions">
-        <exclude-pattern>src/preload.php</exclude-pattern>
         <properties>
             <property
                 name="forbiddenFunctions"
@@ -342,9 +341,7 @@
             <property name="searchAnnotations" value="true"/>
         </properties>
     </rule>
-    <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.PartialUse">
-        <exclude-pattern>config/bundles.php</exclude-pattern>
-    </rule>
+    <rule ref="SlevomatCodingStandard.Namespaces.ReferenceUsedNamesOnly.PartialUse"/>
     <rule ref="SlevomatCodingStandard.Numbers.RequireNumericLiteralSeparator" />
     <rule ref="SlevomatCodingStandard.Operators.DisallowEqualOperators" />
     <rule ref="SlevomatCodingStandard.Operators.SpreadOperatorSpacing" />
