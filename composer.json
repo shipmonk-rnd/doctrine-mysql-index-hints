@@ -3,17 +3,17 @@
     "description": "Custom SQL walker for Doctrine allowing usage of MySQL index hints without need of native queries",
     "license": ["MIT"],
     "require": {
-        "php": ">=7.1.0",
+        "php": ">=7.4.0",
         "doctrine/orm": ">=2.5.11",
         "nette/utils": ">=2.4.0"
     },
     "require-dev": {
-        "editorconfig-checker/editorconfig-checker": "^8.0",
-        "phpstan/phpstan": "^0.12.94",
+        "editorconfig-checker/editorconfig-checker": "^10.2.3",
+        "phpstan/phpstan": "^0.12.96",
         "phpstan/phpstan-phpunit": "^0.12.22",
-        "phpstan/phpstan-strict-rules": "^0.12.10",
-        "phpunit/phpunit": "^7.5",
-        "slevomat/coding-standard": "^7.0"
+        "phpstan/phpstan-strict-rules": "^0.12.11",
+        "phpunit/phpunit": "^9.5.8",
+        "slevomat/coding-standard": "^7.0.13"
     },
     "config": {
         "sort-packages": true
@@ -29,6 +29,6 @@
         }
     },
     "scripts": {
-        "check": "editorconfig-checker src/* tests/* *.dist && phpcs && phpstan analyse -vvv && phpunit -vvv tests"
+        "check": "ec && phpcs && phpstan analyse -vvv && phpunit -vvv tests"
     }
 }

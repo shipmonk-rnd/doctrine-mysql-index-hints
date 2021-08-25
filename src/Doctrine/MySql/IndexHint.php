@@ -5,25 +5,13 @@ namespace ShipMonk\Doctrine\MySql;
 class IndexHint
 {
 
-    /**
-     * @var string
-     */
-    private $type;
+    private string $type;
 
-    /**
-     * @var string
-     */
-    private $indexName;
+    private string $indexName;
 
-    /**
-     * @var string
-     */
-    private $tableName;
+    private string $tableName;
 
-    /**
-     * @var string|null
-     */
-    private $dqlAlias;
+    private ?string $dqlAlias;
 
     private function __construct(string $type, string $indexName, string $tableName, ?string $dqlAlias)
     {

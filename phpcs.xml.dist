@@ -302,7 +302,7 @@
     <rule ref="SlevomatCodingStandard.Functions.DisallowArrowFunction"/>
     <rule ref="SlevomatCodingStandard.Functions.DisallowNamedArguments"/>
     <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInDeclaration"/>
-    <!-- <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/> after bumping php version to 7.3 -->
+    <rule ref="SlevomatCodingStandard.Functions.RequireTrailingCommaInCall"/>
     <rule ref="SlevomatCodingStandard.Functions.StaticClosure"/>
     <rule ref="SlevomatCodingStandard.Functions.UselessParameterDefaultValue"/>
     <rule ref="SlevomatCodingStandard.Functions.UnusedInheritedVariablePassedToClosure"/>
@@ -361,7 +361,6 @@
     <rule ref="SlevomatCodingStandard.TypeHints.NullTypeHintOnLastPosition" />
     <rule ref="SlevomatCodingStandard.TypeHints.UnionTypeHintFormat" />
     <rule ref="SlevomatCodingStandard.TypeHints.UselessConstantTypeHint" />
-    <!-- after bumping php version to 7.4
     <rule ref="SlevomatCodingStandard.TypeHints.PropertyTypeHint">
         <properties>
             <property name="enableNativeTypeHint" value="true"/>
@@ -372,7 +371,6 @@
             "/>
         </properties>
     </rule>
-    -->
 
     <rule ref="SlevomatCodingStandard.TypeHints.ParameterTypeHint">
         <properties>

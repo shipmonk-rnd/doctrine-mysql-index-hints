@@ -24,7 +24,7 @@ class UseIndexSqlWalkerTest extends TestCase
     {
         if ($expectedError !== null) {
             $this->expectException(LogicException::class);
-            $this->expectExceptionMessageRegExp($expectedError);
+            $this->expectExceptionMessageMatches($expectedError);
         }
 
         $entityManagerMock = $this->createEntityManagerMock();
@@ -105,7 +105,7 @@ class UseIndexSqlWalkerTest extends TestCase
             static function (Query $query): void {
                 $query->setHint(
                     UseIndexSqlWalker::class,
-                    [IndexHint::use('IDX_FOO', Account::TABLE_NAME, 'a')]
+                    [IndexHint::use('IDX_FOO', Account::TABLE_NAME, 'a')],
                 );
             },
             'SELECT u0_.id AS id_0, u0_.account_id AS account_id_1'
@@ -121,7 +121,7 @@ class UseIndexSqlWalkerTest extends TestCase
                     [
                         IndexHint::use('IDX_FOO', Account::TABLE_NAME, 'a'),
                         IndexHint::ignore('IDX_BAR', Account::TABLE_NAME, 'a'),
-                    ]
+                    ],
                 );
             },
             'SELECT u0_.id AS id_0, u0_.account_id AS account_id_1'
@@ -137,7 +137,7 @@ class UseIndexSqlWalkerTest extends TestCase
                     [
                         IndexHint::use('IDX_FOO', Account::TABLE_NAME, 'a'),
                         IndexHint::use('IDX_BAR', Account::TABLE_NAME, 'a'),
-                    ]
+                    ],
                 );
             },
             'SELECT u0_.id AS id_0, u0_.account_id AS account_id_1'
@@ -155,7 +155,7 @@ class UseIndexSqlWalkerTest extends TestCase
                         IndexHint::use('IDX_FOO', Account::TABLE_NAME, 'a'),
                         IndexHint::use('IDX_BAR', Account::TABLE_NAME, 'ma'),
                         IndexHint::use('IDX_BAZ', Account::TABLE_NAME, 'ma'),
-                    ]
+                    ],
                 );
             },
             'SELECT u0_.id AS id_0, u0_.account_id AS account_id_1'
@@ -193,7 +193,7 @@ class UseIndexSqlWalkerTest extends TestCase
                     UseIndexSqlWalker::class,
                     [
                         IndexHint::use('IDX_FOO', 'unknown_table'),
-                    ]
+                    ],
                 );
             },
             null,
@@ -207,7 +207,7 @@ class UseIndexSqlWalkerTest extends TestCase
                     UseIndexSqlWalker::class,
                     [
                         IndexHint::use('IDX_FOO', User::TABLE_NAME, 'unknown_alias'),
-                    ]
+                    ],
                 );
             },
             null,
@@ -219,7 +219,7 @@ class UseIndexSqlWalkerTest extends TestCase
             static function (Query $query): void {
                 $query->setHint(
                     UseIndexSqlWalker::class,
-                    IndexHint::use('IDX_FOO', User::TABLE_NAME)
+                    IndexHint::use('IDX_FOO', User::TABLE_NAME),
                 );
             },
             null,
@@ -233,7 +233,7 @@ class UseIndexSqlWalkerTest extends TestCase
                     UseIndexSqlWalker::class,
                     [
                         new stdClass(),
-                    ]
+                    ],
                 );
             },
             null,
@@ -245,7 +245,7 @@ class UseIndexSqlWalkerTest extends TestCase
             static function (Query $query): void {
                 $query->setHint(
                     UseIndexSqlWalker::class,
-                    [IndexHint::use('IDX_FOO', Account::TABLE_NAME)]
+                    [IndexHint::use('IDX_FOO', Account::TABLE_NAME)],
                 );
             },
             null,
@@ -273,7 +273,7 @@ class UseIndexSqlWalkerTest extends TestCase
         return EntityManager::create(
             $connectionMock,
             $config,
-            $eventManager
+            $eventManager,
         );
     }
 

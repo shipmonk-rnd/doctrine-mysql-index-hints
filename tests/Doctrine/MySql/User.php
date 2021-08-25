@@ -16,25 +16,23 @@ class User
     public const TABLE_NAME = 'user';
 
     /**
-     * @var int
      * @ORM\Id
      * @ORM\Column(type="string", nullable=false)
      * @ORM\GeneratedValue
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var Account
      * @ORM\ManyToOne(targetEntity=Account::class)
      * @ORM\JoinColumn(nullable=false)
      */
-    public $account;
+    public Account $account;
 
     /**
      * @var Collection<int,Account>
      * @ORM\OneToMany(targetEntity=Account::class, mappedBy="manager")
      */
-    public $managedAccounts;
+    public Collection $managedAccounts;
 
     public function __construct(int $id, Account $account)
     {

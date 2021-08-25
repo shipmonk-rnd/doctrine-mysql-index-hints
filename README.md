@@ -109,4 +109,6 @@ JOIN account a2_ ON (...)
     - Forgotten hint or invalid arguments are also checked
     - Since those checks cannot be caught by any static analysis tool, it is recommended to have a test for every query
 
-
+### Versions
+- 1.x requires PHP >= 7.1
+- 2.x requires PHP >= 7.4
