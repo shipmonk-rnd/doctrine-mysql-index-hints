@@ -14,19 +14,17 @@ class Account
     public const TABLE_NAME = 'account';
 
     /**
-     * @var int
      * @ORM\Id
      * @ORM\Column(type="string", nullable=false)
      * @ORM\GeneratedValue
      */
-    public $id;
+    public int $id;
 
     /**
-     * @var User
      * @ORM\ManyToOne(targetEntity=User::class, inversedBy="managedAccounts")
      * @ORM\JoinColumn(nullable=false)
      */
-    public $manager;
+    public User $manager;
 
     public function __construct(int $id, User $manager)
     {
