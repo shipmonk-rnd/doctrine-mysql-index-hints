@@ -2,6 +2,7 @@
 
 namespace ShipMonk\Doctrine\MySql;
 
+use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\ORM\Query\AST\FromClause;
 use Doctrine\ORM\Query\AST\SelectStatement;
 use Doctrine\ORM\Query\SqlWalker;
@@ -23,15 +24,22 @@ class UseIndexSqlWalker extends SqlWalker
      */
     public function walkFromClause($fromClause): string
     {
+        $selfClass = get_class($this);
         $query = $this->getQuery();
+        $platform = $query->getEntityManager()->getConnection()->getDatabasePlatform();
+
         $sql = parent::walkFromClause($fromClause);
 
+        if (!$platform instanceof MySqlPlatform) {
+            throw new LogicException("Only MySQL platform is supported, {$platform->getName()} given");
+        }
+
         if (!$query->hasHint(self::class)) {
-            throw new LogicException('UseIndexSqlWalker was used, but no index hint was added. Add ->setHint(UseIndexSqlWalker::class, [IndexHint::use(\'index_name\', \'table_name\')])');
+            throw new LogicException("{$selfClass} was used, but no index hint was added. Add ->setHint({$selfClass}::class, [IndexHint::use('index_name', 'table_name')])");
         }
 
         if (!$query->getAST() instanceof SelectStatement) {
-            throw new LogicException('Only SELECT query type is currently supported');
+            throw new LogicException("Only SELECT queries are currently supported by {$selfClass}");
         }
 
         $hints = $query->getHint(self::class);
@@ -53,7 +61,7 @@ class UseIndexSqlWalker extends SqlWalker
             $tableName = $hint->getTableName();
             $tableAlias = $hint->getDqlAlias() !== null
                 ? $this->getSQLTableAlias($hint->getTableName(), $hint->getDqlAlias())
-                : '\S+';
+                : '\S+'; // doctrine always adds some alias
             $tableWithAliasRegex = "~{$tableName}\s+{$tableAlias}~i";
 
             if (Strings::match($sql, $tableWithAliasRegex) === null) {
