@@ -4,6 +4,7 @@ jobs:
     checks:
         runs-on: ubuntu-latest
         strategy:
+            fail-fast: false
             matrix:
                 php-version: [ '7.4', '8.0' ]
                 dependency-version: [ prefer-lowest, prefer-stable ]
