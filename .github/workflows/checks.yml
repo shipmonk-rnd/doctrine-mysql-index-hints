@@ -3,11 +3,14 @@ on: [push, pull_request]
 jobs:
     checks:
         runs-on: ubuntu-latest
+        strategy:
+            matrix:
+                php-versions: [ '7.4', '8.0' ]
         steps:
             - uses: actions/checkout@v2
             -
                 uses: shivammathur/setup-php@v2
                 with:
-                    php-version: '7.4'
+                    php-version: ${{ matrix.php-versions }}
             - run: composer install --no-progress --prefer-dist
             - run: composer check
