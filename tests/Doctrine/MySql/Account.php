@@ -23,7 +23,7 @@ class Account
 
     /**
      * @var User
-     * @ORM\ManyToOne(targetEntity=User::class, inversedBy="managedAccounts")
+     * @ORM\ManyToOne(targetEntity="User", inversedBy="managedAccounts")
      * @ORM\JoinColumn(nullable=false)
      */
     public $manager;
