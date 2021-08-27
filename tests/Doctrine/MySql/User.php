@@ -25,14 +25,14 @@ class User
 
     /**
      * @var Account
-     * @ORM\ManyToOne(targetEntity=Account::class)
+     * @ORM\ManyToOne(targetEntity="Account")
      * @ORM\JoinColumn(nullable=false)
      */
     public $account;
 
     /**
      * @var Collection<int,Account>
-     * @ORM\OneToMany(targetEntity=Account::class, mappedBy="manager")
+     * @ORM\OneToMany(targetEntity="Account", mappedBy="manager")
      */
     public $managedAccounts;
 
