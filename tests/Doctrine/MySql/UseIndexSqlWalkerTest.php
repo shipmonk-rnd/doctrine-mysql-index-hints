@@ -7,6 +7,7 @@ use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\ORMSetup;
 use Doctrine\ORM\Query;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -260,7 +261,7 @@ class UseIndexSqlWalkerTest extends TestCase
         $config->setProxyDir('/tmp/doctrine');
         $config->setAutoGenerateProxyClasses(false);
         $config->setSecondLevelCacheEnabled(false);
-        $config->setMetadataDriverImpl($config->newDefaultAnnotationDriver([], false));
+        $config->setMetadataDriverImpl($config->newDefaultAnnotationDriver([], false)); // @phpstan-ignore-line dynamically defined parent in CompatibilityAnnotationDriver.php
 
         $eventManager = $this->createMock(EventManager::class);
         $connectionMock = $this->createMock(Connection::class);
