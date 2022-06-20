@@ -18,7 +18,7 @@
         "phpstan/phpstan-phpunit": "^0.12.22",
         "phpstan/phpstan-strict-rules": "^0.12.11",
         "phpunit/phpunit": "^9.5.8",
-        "slevomat/coding-standard": "^7.0.13"
+        "slevomat/coding-standard": "^8.0.0"
     },
     "autoload": {
         "psr-4": {
