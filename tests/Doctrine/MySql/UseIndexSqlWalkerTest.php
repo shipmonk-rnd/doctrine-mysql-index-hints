@@ -12,7 +12,6 @@ use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use stdClass;
-use function assert;
 use function sprintf;
 
 class UseIndexSqlWalkerTest extends TestCase
@@ -263,8 +262,9 @@ class UseIndexSqlWalkerTest extends TestCase
         $config->setAutoGenerateProxyClasses(false);
         $config->setSecondLevelCacheEnabled(false);
 
+        // dynamically defined parent in CompatibilityAnnotationDriver.php breaks phpstan
+        /** @var MappingDriver $annotationDriver */
         $annotationDriver = $config->newDefaultAnnotationDriver([], false);
-        assert($annotationDriver instanceof MappingDriver); // dynamically defined parent in CompatibilityAnnotationDriver.php breaks phpstan
 
         $config->setMetadataDriverImpl($annotationDriver);
 
