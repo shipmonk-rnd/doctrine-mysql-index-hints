@@ -8,9 +8,11 @@ use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Query;
+use Doctrine\Persistence\Mapping\Driver\MappingDriver;
 use LogicException;
 use PHPUnit\Framework\TestCase;
 use stdClass;
+use function assert;
 use function sprintf;
 
 class UseIndexSqlWalkerTest extends TestCase
@@ -260,7 +262,11 @@ class UseIndexSqlWalkerTest extends TestCase
         $config->setProxyDir('/tmp/doctrine');
         $config->setAutoGenerateProxyClasses(false);
         $config->setSecondLevelCacheEnabled(false);
-        $config->setMetadataDriverImpl($config->newDefaultAnnotationDriver([], false)); // @phpstan-ignore-line dynamically defined parent in CompatibilityAnnotationDriver.php
+
+        $annotationDriver = $config->newDefaultAnnotationDriver([], false);
+        assert($annotationDriver instanceof MappingDriver); // dynamically defined parent in CompatibilityAnnotationDriver.php breaks phpstan
+
+        $config->setMetadataDriverImpl($annotationDriver);
 
         $eventManager = $this->createMock(EventManager::class);
         $connectionMock = $this->createMock(Connection::class);
