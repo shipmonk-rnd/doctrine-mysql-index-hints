@@ -262,7 +262,7 @@ class UseIndexSqlWalkerTest extends TestCase
         $config->setProxyDir('/tmp/doctrine');
         $config->setAutoGenerateProxyClasses(false);
         $config->setSecondLevelCacheEnabled(false);
-        $config->setMetadataDriverImpl(new AnnotationDriver(new AnnotationReader()));
+        $config->setMetadataDriverImpl(new AnnotationDriver(new AnnotationReader(), []));
 
         $eventManager = $this->createMock(EventManager::class);
         $connectionMock = $this->createMock(Connection::class);
