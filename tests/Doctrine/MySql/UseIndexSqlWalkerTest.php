@@ -2,12 +2,13 @@
 
 namespace ShipMonk\Doctrine\MySql;
 
+use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\ORMSetup;
+use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Query;
 use LogicException;
 use PHPUnit\Framework\TestCase;
@@ -261,7 +262,7 @@ class UseIndexSqlWalkerTest extends TestCase
         $config->setProxyDir('/tmp/doctrine');
         $config->setAutoGenerateProxyClasses(false);
         $config->setSecondLevelCacheEnabled(false);
-        $config->setMetadataDriverImpl(ORMSetup::createDefaultAnnotationDriver([]));
+        $config->setMetadataDriverImpl(new AnnotationDriver(new AnnotationReader()));
 
         $eventManager = $this->createMock(EventManager::class);
         $connectionMock = $this->createMock(Connection::class);
