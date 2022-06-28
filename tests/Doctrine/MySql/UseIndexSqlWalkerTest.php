@@ -3,6 +3,7 @@
 namespace ShipMonk\Doctrine\MySql;
 
 use Doctrine\Common\Annotations\AnnotationReader;
+use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\MySqlPlatform;
@@ -257,6 +258,8 @@ class UseIndexSqlWalkerTest extends TestCase
 
     private function createEntityManagerMock(): EntityManager
     {
+        AnnotationRegistry::registerLoader('class_exists');
+
         $config = new Configuration();
         $config->setProxyNamespace('Tmp\Doctrine\Tests\Proxies');
         $config->setProxyDir('/tmp/doctrine');
