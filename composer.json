@@ -7,8 +7,11 @@
     "require": {
         "php": ">=7.4.0",
         "doctrine/annotations": "^1.8.0",
+        "doctrine/collections": "^1.6.8",
         "doctrine/dbal": "^2.12.0",
+        "doctrine/lexer": "^1.1.0",
         "doctrine/orm": "^2.7.0",
+        "doctrine/persistence": "^2.2.2",
         "nette/utils": ">=2.4.0"
     },
     "require-dev": {
@@ -33,7 +36,8 @@
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": false,
-            "ergebnis/composer-normalize": true
+            "ergebnis/composer-normalize": true,
+            "ocramius/package-versions": false
         },
         "sort-packages": true
     },
