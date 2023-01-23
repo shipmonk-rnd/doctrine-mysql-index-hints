@@ -8,3 +8,4 @@ updates:
         open-pull-requests-limit: 5
         allow:
             - dependency-type: "development"
+        versioning-strategy: "increase"
