@@ -35,15 +35,9 @@ WHERE u0_.id = 1
 See the used entity (it makes sense to put table names and index names into public constants to bind it together and reference it easily):
 
 ```php
-/**
- * @ORM\Table(
- *     name=User::TABLE_NAME,
- *     indexes={
- *          @ORM\Index(name=User::IDX_FOO, columns={"id"})
- *     }
- * )
- * @ORM\Entity
- */
+#[ORM\Table(name: self::TABLE_NAME)]
+#[ORM\Index(name: self::IDX_FOO, columns: ['id'])]
+#[ORM\Entity]
 class User
 {
     public const TABLE_NAME = 'user';
