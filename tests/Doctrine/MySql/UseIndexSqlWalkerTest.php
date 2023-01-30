@@ -3,10 +3,9 @@
 namespace ShipMonk\Doctrine\MySql;
 
 use Doctrine\Common\Annotations\AnnotationReader;
-use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
-use Doctrine\DBAL\Platforms\MySqlPlatform;
+use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
@@ -258,8 +257,6 @@ class UseIndexSqlWalkerTest extends TestCase
 
     private function createEntityManagerMock(): EntityManager
     {
-        AnnotationRegistry::registerLoader('class_exists');
-
         $config = new Configuration();
         $config->setProxyNamespace('Tmp\Doctrine\Tests\Proxies');
         $config->setProxyDir('/tmp/doctrine');
@@ -273,7 +270,7 @@ class UseIndexSqlWalkerTest extends TestCase
             ->willReturn($eventManager);
 
         $connectionMock->method('getDatabasePlatform')
-            ->willReturn(new MySqlPlatform());
+            ->willReturn(new MySQL80Platform());
 
         return EntityManager::create(
             $connectionMock,

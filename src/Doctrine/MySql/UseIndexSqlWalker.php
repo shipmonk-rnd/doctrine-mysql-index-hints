@@ -2,18 +2,21 @@
 
 namespace ShipMonk\Doctrine\MySql;
 
-use Doctrine\DBAL\Platforms\MySqlPlatform;
 use Doctrine\ORM\Query\AST\FromClause;
 use Doctrine\ORM\Query\AST\SelectStatement;
 use Doctrine\ORM\Query\SqlWalker;
 use LogicException;
-use Nette\Utils\Strings;
-use function count;
 use function get_class;
 use function gettype;
 use function implode;
+use function is_a;
 use function is_array;
 use function is_object;
+use function preg_last_error;
+use function preg_match;
+use function preg_match_all;
+use function preg_quote;
+use function preg_replace;
 
 class UseIndexSqlWalker extends SqlWalker
 {
@@ -30,7 +33,7 @@ class UseIndexSqlWalker extends SqlWalker
 
         $sql = parent::walkFromClause($fromClause);
 
-        if (!$platform instanceof MySqlPlatform) {
+        if (!is_a($platform, 'Doctrine\DBAL\Platforms\MySqlPlatform')) { // bypass platform MySqlPlatform => MySQLPlatform rename in dbal
             throw new LogicException("Only MySQL platform is supported, {$platform->getName()} given");
         }
 
@@ -58,18 +61,19 @@ class UseIndexSqlWalker extends SqlWalker
                 throw new LogicException("Unexpected hint, expecting array of IndexHint objects, element #{$index} is {$type}");
             }
 
-            $tableName = $hint->getTableName();
+            $delimiter = '~';
+            $tableName = preg_quote($hint->getTableName(), $delimiter);
             $tableAlias = $hint->getDqlAlias() !== null
-                ? $this->getSQLTableAlias($hint->getTableName(), $hint->getDqlAlias())
+                ? preg_quote($this->getSQLTableAlias($hint->getTableName(), $hint->getDqlAlias()), $delimiter)
                 : '\S+'; // doctrine always adds some alias
-            $tableWithAliasRegex = "~{$tableName}\s+{$tableAlias}~i";
+            $tableWithAliasRegex = "{$delimiter}{$tableName}\s+{$tableAlias}{$delimiter}i";
 
-            if (Strings::match($sql, $tableWithAliasRegex) === null) {
+            if (preg_match($tableWithAliasRegex, $sql) === 0) {
                 $aliasInfo = $hint->getDqlAlias() !== null ? " with DQL alias {$hint->getDqlAlias()}" : '';
                 throw new LogicException("Invalid hint for index {$hint->getIndexName()}, table {$tableName}{$aliasInfo} is not present in the query.");
             }
 
-            if ($hint->getDqlAlias() === null && count(Strings::matchAll($sql, $tableWithAliasRegex)) !== 1) {
+            if ($hint->getDqlAlias() === null && preg_match_all($tableWithAliasRegex, $sql) !== 1) {
                 throw new LogicException("Invalid hint for index {$hint->getIndexName()}, table {$tableName} is present multiple times in the query, please specify DQL alias to apply index on a proper place.");
             }
 
@@ -79,7 +83,13 @@ class UseIndexSqlWalker extends SqlWalker
         foreach ($replacements as $tableRegex => $indexHints) {
             foreach ($indexHints as $indexType => $indexNames) {
                 $indexList = implode(', ', $indexNames);
-                $sql = Strings::replace($sql, $tableRegex, "\\0 {$indexType} INDEX ({$indexList})");
+                $sqlWithIndexHints = preg_replace($tableRegex, "\\0 {$indexType} INDEX ({$indexList})", $sql);
+
+                if ($sqlWithIndexHints === null) {
+                    throw new LogicException('Regex replace failure: ' . preg_last_error());
+                }
+
+                $sql = $sqlWithIndexHints;
             }
         }
 
