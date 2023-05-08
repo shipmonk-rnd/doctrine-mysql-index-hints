@@ -4484,16 +4484,16 @@
         },
         {
             "name": "shipmonk/phpstan-rules",
-            "version": "2.5.1",
+            "version": "2.6.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shipmonk-rnd/phpstan-rules.git",
-                "reference": "bdae03f39a416169ee80725ddd69fbf341bc8990"
+                "reference": "4567a9c03aa6c40584ab38f075e8b925a2fef659"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shipmonk-rnd/phpstan-rules/zipball/bdae03f39a416169ee80725ddd69fbf341bc8990",
-                "reference": "bdae03f39a416169ee80725ddd69fbf341bc8990",
+                "url": "https://api.github.com/repos/shipmonk-rnd/phpstan-rules/zipball/4567a9c03aa6c40584ab38f075e8b925a2fef659",
+                "reference": "4567a9c03aa6c40584ab38f075e8b925a2fef659",
                 "shasum": ""
             },
             "require": {
@@ -4534,9 +4534,9 @@
             ],
             "support": {
                 "issues": "https://github.com/shipmonk-rnd/phpstan-rules/issues",
-                "source": "https://github.com/shipmonk-rnd/phpstan-rules/tree/2.5.1"
+                "source": "https://github.com/shipmonk-rnd/phpstan-rules/tree/2.6.0"
             },
-            "time": "2023-04-21T11:30:23+00:00"
+            "time": "2023-04-28T13:09:55+00:00"
         },
         {
             "name": "slevomat/coding-standard",
