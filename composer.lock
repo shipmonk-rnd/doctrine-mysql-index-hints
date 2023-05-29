@@ -2726,16 +2726,16 @@
         },
         {
             "name": "nikic/php-parser",
-            "version": "v4.15.4",
+            "version": "v4.15.5",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nikic/PHP-Parser.git",
-                "reference": "6bb5176bc4af8bcb7d926f88718db9b96a2d4290"
+                "reference": "11e2663a5bc9db5d714eedb4277ee300403b4a9e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/6bb5176bc4af8bcb7d926f88718db9b96a2d4290",
-                "reference": "6bb5176bc4af8bcb7d926f88718db9b96a2d4290",
+                "url": "https://api.github.com/repos/nikic/PHP-Parser/zipball/11e2663a5bc9db5d714eedb4277ee300403b4a9e",
+                "reference": "11e2663a5bc9db5d714eedb4277ee300403b4a9e",
                 "shasum": ""
             },
             "require": {
@@ -2776,9 +2776,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nikic/PHP-Parser/issues",
-                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.4"
+                "source": "https://github.com/nikic/PHP-Parser/tree/v4.15.5"
             },
-            "time": "2023-03-05T19:49:14+00:00"
+            "time": "2023-05-19T20:20:00+00:00"
         },
         {
             "name": "phar-io/manifest",
@@ -4486,16 +4486,16 @@
         },
         {
             "name": "shipmonk/phpstan-rules",
-            "version": "2.6.1",
+            "version": "2.6.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shipmonk-rnd/phpstan-rules.git",
-                "reference": "9ffe7b7968025e1b0f6e1475a720a559bfce49d4"
+                "reference": "20c7c73fdffeaab696559723636d71ddb273200a"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shipmonk-rnd/phpstan-rules/zipball/9ffe7b7968025e1b0f6e1475a720a559bfce49d4",
-                "reference": "9ffe7b7968025e1b0f6e1475a720a559bfce49d4",
+                "url": "https://api.github.com/repos/shipmonk-rnd/phpstan-rules/zipball/20c7c73fdffeaab696559723636d71ddb273200a",
+                "reference": "20c7c73fdffeaab696559723636d71ddb273200a",
                 "shasum": ""
             },
             "require": {
@@ -4536,9 +4536,9 @@
             ],
             "support": {
                 "issues": "https://github.com/shipmonk-rnd/phpstan-rules/issues",
-                "source": "https://github.com/shipmonk-rnd/phpstan-rules/tree/2.6.1"
+                "source": "https://github.com/shipmonk-rnd/phpstan-rules/tree/2.6.2"
             },
-            "time": "2023-05-15T10:33:13+00:00"
+            "time": "2023-05-24T09:02:37+00:00"
         },
         {
             "name": "slevomat/coding-standard",
