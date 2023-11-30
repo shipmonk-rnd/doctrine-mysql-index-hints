@@ -20,7 +20,7 @@ $result = $em->createQueryBuilder()
     ->andWhere('u.id = 1')
     ->getQuery()
     ->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, HintDrivenSqlWalker::class)
-    ->setHint(UseIndexSqlWalker::class, [IndexHint::force(User::IDX_FOO, User::TABLE_NAME)])
+    ->setHint(UseIndexHintHandler::class, [IndexHint::force(User::IDX_FOO, User::TABLE_NAME)])
     ->getResult();
 ```
 
@@ -57,7 +57,7 @@ As you can see, hinting joined tables is equally simple.
 ->join('u.account', 'a')
 ->getQuery()
 ->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, HintDrivenSqlWalker::class)
-->setHint(UseIndexSqlWalker::class, [
+->setHint(UseIndexHintHandler::class, [
     IndexHint::use(Account::IDX_1, Account::TABLE_NAME),
     IndexHint::use(Account::IDX_2, Account::TABLE_NAME),
     IndexHint::ignore(Account::IDX_3, Account::TABLE_NAME),
@@ -82,7 +82,7 @@ You might need to hint only specific join of certain table. Just add which DQL a
 ->join('u.anotherAccount', 'a2')
 ->getQuery()
 ->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, HintDrivenSqlWalker::class)
-->setHint(UseIndexSqlWalker::class, [
+->setHint(UseIndexHintHandler::class, [
     IndexHint::use(Account::IDX_1, Account::TABLE_NAME, 'a1'), // alias needed
 ])
 ```
