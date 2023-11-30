@@ -2,10 +2,10 @@
 
 namespace ShipMonk\Doctrine\MySql;
 
-use Doctrine\ORM\Query\AST\FromClause;
 use Doctrine\ORM\Query\AST\SelectStatement;
-use Doctrine\ORM\Query\SqlWalker;
 use LogicException;
+use ShipMonk\Doctrine\Walker\HintHandler;
+use ShipMonk\Doctrine\Walker\SqlNode;
 use function get_class;
 use function gettype;
 use function implode;
@@ -18,34 +18,33 @@ use function preg_match_all;
 use function preg_quote;
 use function preg_replace;
 
-class UseIndexSqlWalker extends SqlWalker
+class UseIndexSqlWalker extends HintHandler
 {
 
     /**
-     * @param FromClause $fromClause
-     * @phpcsSuppress SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingNativeTypeHint
+     * @return list<SqlNode::*>
      */
-    public function walkFromClause($fromClause): string
+    public function getNodes(): array
+    {
+        return [SqlNode::FromClause];
+    }
+
+    public function processNode(string $sqlNode, string $sql): string
     {
         $selfClass = get_class($this);
-        $query = $this->getQuery();
+        $sqlWalker = $this->getDoctrineSqlWalker();
+        $query = $sqlWalker->getQuery();
         $platform = $query->getEntityManager()->getConnection()->getDatabasePlatform();
-
-        $sql = parent::walkFromClause($fromClause);
 
         if (!is_a($platform, 'Doctrine\DBAL\Platforms\MySqlPlatform')) { // bypass platform MySqlPlatform => MySQLPlatform rename in dbal
             throw new LogicException("Only MySQL platform is supported, {$platform->getName()} given");
-        }
-
-        if (!$query->hasHint(self::class)) {
-            throw new LogicException("{$selfClass} was used, but no index hint was added. Add ->setHint({$selfClass}::class, [IndexHint::use('index_name', 'table_name')])");
         }
 
         if (!$query->getAST() instanceof SelectStatement) {
             throw new LogicException("Only SELECT queries are currently supported by {$selfClass}");
         }
 
-        $hints = $query->getHint(self::class);
+        $hints = $this->getHintValue();
 
         if (!is_array($hints)) {
             $type = is_object($hints) ? get_class($hints) : gettype($hints);
@@ -64,7 +63,7 @@ class UseIndexSqlWalker extends SqlWalker
             $delimiter = '~';
             $tableName = preg_quote($hint->getTableName(), $delimiter);
             $tableAlias = $hint->getDqlAlias() !== null
-                ? preg_quote($this->getSQLTableAlias($hint->getTableName(), $hint->getDqlAlias()), $delimiter)
+                ? preg_quote($sqlWalker->getSQLTableAlias($hint->getTableName(), $hint->getDqlAlias()), $delimiter)
                 : '\S+'; // doctrine always adds some alias
             $tableWithAliasRegex = "{$delimiter}{$tableName}\s+{$tableAlias}{$delimiter}i";
 

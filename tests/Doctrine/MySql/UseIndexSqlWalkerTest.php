@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Doctrine\ORM\Query;
 use LogicException;
 use PHPUnit\Framework\TestCase;
+use ShipMonk\Doctrine\Walker\HintDrivenSqlWalker;
 use stdClass;
 use function sprintf;
 
@@ -34,7 +35,7 @@ class UseIndexSqlWalkerTest extends TestCase
         $query = new Query($entityManagerMock);
         $query->setDQL($dql);
 
-        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, UseIndexSqlWalker::class);
+        $query->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, HintDrivenSqlWalker::class);
         $configureQueryCallback($query);
         $producedSql = $query->getSQL();
 
@@ -185,7 +186,7 @@ class UseIndexSqlWalkerTest extends TestCase
             static function (Query $query): void {
             },
             null,
-            '~no index hint was added~',
+            '~no HintHandler child was added as hint~',
         ];
 
         yield 'invalid table' => [

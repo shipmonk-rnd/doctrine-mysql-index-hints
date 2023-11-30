@@ -19,8 +19,8 @@ $result = $em->createQueryBuilder()
     ->from(User::class, 'u')
     ->andWhere('u.id = 1')
     ->getQuery()
-    ->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, UseIndexSqlWalker::class)
-    ->setHint(UseIndexSqlWalker::class, [IndexHint::force(User::IDX_FOO, User::TABLE_NAME)])
+    ->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, HintDrivenSqlWalker::class)
+    ->setHint(UseIndexHintHandler::class, [IndexHint::force(User::IDX_FOO, User::TABLE_NAME)])
     ->getResult();
 ```
 
@@ -56,8 +56,8 @@ As you can see, hinting joined tables is equally simple.
 ->from(User::class, 'u')
 ->join('u.account', 'a')
 ->getQuery()
-->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, UseIndexSqlWalker::class)
-->setHint(UseIndexSqlWalker::class, [
+->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, HintDrivenSqlWalker::class)
+->setHint(UseIndexHintHandler::class, [
     IndexHint::use(Account::IDX_1, Account::TABLE_NAME),
     IndexHint::use(Account::IDX_2, Account::TABLE_NAME),
     IndexHint::ignore(Account::IDX_3, Account::TABLE_NAME),
@@ -81,8 +81,8 @@ You might need to hint only specific join of certain table. Just add which DQL a
 ->join('u.account', 'a1')
 ->join('u.anotherAccount', 'a2')
 ->getQuery()
-->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, UseIndexSqlWalker::class)
-->setHint(UseIndexSqlWalker::class, [
+->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, HintDrivenSqlWalker::class)
+->setHint(UseIndexHintHandler::class, [
     IndexHint::use(Account::IDX_1, Account::TABLE_NAME, 'a1'), // alias needed
 ])
 ```
@@ -103,6 +103,23 @@ JOIN account a2_ ON (...)
     - Forgotten hint or invalid arguments are also checked
     - Since those checks cannot be caught by any static analysis tool, it is recommended to have a test for every query
 
+### Combining with optimizer hints:
+
+Since 3.0.0, you can combine this library with [shipmonk/doctrine-mysql-optimizer-hints](https://github.com/shipmonk-rnd/doctrine-mysql-optimizer-hints):
+
+```php
+$result = $em->createQueryBuilder()
+    ->select('u.id')
+    ->from(User::class, 'u')
+    ->andWhere('u.id = 1')
+    ->getQuery()
+    ->setHint(Query::HINT_CUSTOM_OUTPUT_WALKER, HintDrivenSqlWalker::class)
+    ->setHint(OptimizerHintsHintHandler::class, ['MAX_EXECUTION_TIME(1000)'])
+    ->setHint(UseIndexHintHandler::class, [IndexHint::force(User::IDX_FOO, User::TABLE_NAME)])
+    ->getResult();
+```
+
 ### Versions
 - 1.x requires PHP >= 7.1
 - 2.x requires PHP >= 7.4
+- 3.x requires PHP >= 7.4
