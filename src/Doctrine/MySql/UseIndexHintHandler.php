@@ -18,7 +18,7 @@ use function preg_match_all;
 use function preg_quote;
 use function preg_replace;
 
-class UseIndexSqlWalker extends HintHandler
+class UseIndexHintHandler extends HintHandler
 {
 
     /**

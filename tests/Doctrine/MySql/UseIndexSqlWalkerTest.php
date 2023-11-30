@@ -52,28 +52,28 @@ class UseIndexSqlWalkerTest extends TestCase
         yield 'FROM - use single index' => [
             $userSelectDql,
             static function (Query $query): void {
-                $query->setHint(UseIndexSqlWalker::class, [IndexHint::use('IDX_FOO', User::TABLE_NAME)]);
+                $query->setHint(UseIndexHintHandler::class, [IndexHint::use('IDX_FOO', User::TABLE_NAME)]);
             },
             'SELECT u0_.id AS id_0, u0_.account_id AS account_id_1 FROM user u0_ USE INDEX (IDX_FOO)',
         ];
         yield 'FROM - force single index' => [
             $userSelectDql,
             static function (Query $query): void {
-                $query->setHint(UseIndexSqlWalker::class, [IndexHint::force('IDX_FOO', User::TABLE_NAME)]);
+                $query->setHint(UseIndexHintHandler::class, [IndexHint::force('IDX_FOO', User::TABLE_NAME)]);
             },
             'SELECT u0_.id AS id_0, u0_.account_id AS account_id_1 FROM user u0_ FORCE INDEX (IDX_FOO)',
         ];
         yield 'FROM - ignore single index' => [
             $userSelectDql,
             static function (Query $query): void {
-                $query->setHint(UseIndexSqlWalker::class, [IndexHint::ignore('IDX_FOO', User::TABLE_NAME)]);
+                $query->setHint(UseIndexHintHandler::class, [IndexHint::ignore('IDX_FOO', User::TABLE_NAME)]);
             },
             'SELECT u0_.id AS id_0, u0_.account_id AS account_id_1 FROM user u0_ IGNORE INDEX (IDX_FOO)',
         ];
         yield 'FROM - use multiple indexes' => [
             $userSelectDql,
             static function (Query $query): void {
-                $query->setHint(UseIndexSqlWalker::class, [
+                $query->setHint(UseIndexHintHandler::class, [
                     IndexHint::use('IDX_FOO', User::TABLE_NAME),
                     IndexHint::use('IDX_BAR', User::TABLE_NAME),
                 ]);
@@ -83,7 +83,7 @@ class UseIndexSqlWalkerTest extends TestCase
         yield 'FROM - force multiple indexes' => [
             $userSelectDql,
             static function (Query $query): void {
-                $query->setHint(UseIndexSqlWalker::class, [
+                $query->setHint(UseIndexHintHandler::class, [
                     IndexHint::force('IDX_FOO', User::TABLE_NAME),
                     IndexHint::force('IDX_BAR', User::TABLE_NAME),
                 ]);
@@ -93,7 +93,7 @@ class UseIndexSqlWalkerTest extends TestCase
         yield 'FROM - ignore multiple indexes' => [
             $userSelectDql,
             static function (Query $query): void {
-                $query->setHint(UseIndexSqlWalker::class, [
+                $query->setHint(UseIndexHintHandler::class, [
                     IndexHint::ignore('IDX_FOO', User::TABLE_NAME),
                     IndexHint::ignore('IDX_BAR', User::TABLE_NAME),
                 ]);
@@ -107,7 +107,7 @@ class UseIndexSqlWalkerTest extends TestCase
             $userSelectWithJoinsDql,
             static function (Query $query): void {
                 $query->setHint(
-                    UseIndexSqlWalker::class,
+                    UseIndexHintHandler::class,
                     [IndexHint::use('IDX_FOO', Account::TABLE_NAME, 'a')],
                 );
             },
@@ -120,7 +120,7 @@ class UseIndexSqlWalkerTest extends TestCase
             $userSelectWithJoinsDql,
             static function (Query $query): void {
                 $query->setHint(
-                    UseIndexSqlWalker::class,
+                    UseIndexHintHandler::class,
                     [
                         IndexHint::use('IDX_FOO', Account::TABLE_NAME, 'a'),
                         IndexHint::ignore('IDX_BAR', Account::TABLE_NAME, 'a'),
@@ -136,7 +136,7 @@ class UseIndexSqlWalkerTest extends TestCase
             $userSelectWithJoinsDql,
             static function (Query $query): void {
                 $query->setHint(
-                    UseIndexSqlWalker::class,
+                    UseIndexHintHandler::class,
                     [
                         IndexHint::use('IDX_FOO', Account::TABLE_NAME, 'a'),
                         IndexHint::use('IDX_BAR', Account::TABLE_NAME, 'a'),
@@ -153,7 +153,7 @@ class UseIndexSqlWalkerTest extends TestCase
             $userSelectWithJoinsDql,
             static function (Query $query): void {
                 $query->setHint(
-                    UseIndexSqlWalker::class,
+                    UseIndexHintHandler::class,
                     [
                         IndexHint::use('IDX_FOO', Account::TABLE_NAME, 'a'),
                         IndexHint::use('IDX_BAR', Account::TABLE_NAME, 'ma'),
@@ -170,7 +170,7 @@ class UseIndexSqlWalkerTest extends TestCase
         yield 'FROM and JOIN combination' => [
             $userSelectWithJoinsDql,
             static function (Query $query): void {
-                $query->setHint(UseIndexSqlWalker::class, [
+                $query->setHint(UseIndexHintHandler::class, [
                     IndexHint::use('IDX_FOO', User::TABLE_NAME),
                     IndexHint::use('IDX_BAR', Account::TABLE_NAME, 'a'),
                 ]);
@@ -193,7 +193,7 @@ class UseIndexSqlWalkerTest extends TestCase
             $userSelectDql,
             static function (Query $query): void {
                 $query->setHint(
-                    UseIndexSqlWalker::class,
+                    UseIndexHintHandler::class,
                     [
                         IndexHint::use('IDX_FOO', 'unknown_table'),
                     ],
@@ -207,7 +207,7 @@ class UseIndexSqlWalkerTest extends TestCase
             $userSelectDql,
             static function (Query $query): void {
                 $query->setHint(
-                    UseIndexSqlWalker::class,
+                    UseIndexHintHandler::class,
                     [
                         IndexHint::use('IDX_FOO', User::TABLE_NAME, 'unknown_alias'),
                     ],
@@ -221,7 +221,7 @@ class UseIndexSqlWalkerTest extends TestCase
             $userSelectDql,
             static function (Query $query): void {
                 $query->setHint(
-                    UseIndexSqlWalker::class,
+                    UseIndexHintHandler::class,
                     IndexHint::use('IDX_FOO', User::TABLE_NAME),
                 );
             },
@@ -233,7 +233,7 @@ class UseIndexSqlWalkerTest extends TestCase
             $userSelectDql,
             static function (Query $query): void {
                 $query->setHint(
-                    UseIndexSqlWalker::class,
+                    UseIndexHintHandler::class,
                     [
                         new stdClass(),
                     ],
@@ -247,7 +247,7 @@ class UseIndexSqlWalkerTest extends TestCase
             $userSelectWithJoinsDql,
             static function (Query $query): void {
                 $query->setHint(
-                    UseIndexSqlWalker::class,
+                    UseIndexHintHandler::class,
                     [IndexHint::use('IDX_FOO', Account::TABLE_NAME)],
                 );
             },
