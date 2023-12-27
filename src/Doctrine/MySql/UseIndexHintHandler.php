@@ -31,7 +31,7 @@ class UseIndexHintHandler extends HintHandler
 
     public function processNode(string $sqlNode, string $sql): string
     {
-        $selfClass = get_class($this);
+        $selfClass = static::class;
         $sqlWalker = $this->getDoctrineSqlWalker();
         $query = $sqlWalker->getQuery();
         $platform = $query->getEntityManager()->getConnection()->getDatabasePlatform();
