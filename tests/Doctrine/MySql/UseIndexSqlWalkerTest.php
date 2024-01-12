@@ -43,7 +43,7 @@ class UseIndexSqlWalkerTest extends TestCase
     }
 
     /**
-     * @return iterable|mixed[][]
+     * @return iterable<string, array{0: string, 1: callable(Query): void, 2?: string|null, 3?: string|null}>
      */
     public function walksProvider(): iterable
     {
