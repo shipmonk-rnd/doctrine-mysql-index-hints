@@ -20,7 +20,7 @@
         "phpstan/phpstan-phpunit": "^1.3.3",
         "phpstan/phpstan-strict-rules": "^1.4.5",
         "phpunit/phpunit": "^9.5.28",
-        "shipmonk/composer-dependency-analyser": "dev-master",
+        "shipmonk/composer-dependency-analyser": "^1.0.0",
         "shipmonk/phpstan-rules": "^2.2.0",
         "slevomat/coding-standard": "^8.8.0"
     },
