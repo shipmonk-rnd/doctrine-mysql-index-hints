@@ -2,15 +2,15 @@
 
 namespace ShipMonk\Doctrine\MySql;
 
-use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\Platforms\MySQL80Platform;
 use Doctrine\ORM\Configuration;
 use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
+use Doctrine\ORM\Mapping\Driver\AttributeDriver;
 use Doctrine\ORM\Query;
 use LogicException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ShipMonk\Doctrine\Walker\HintDrivenSqlWalker;
 use stdClass;
@@ -21,8 +21,8 @@ class UseIndexSqlWalkerTest extends TestCase
 
     /**
      * @param callable(Query): void $configureQueryCallback
-     * @dataProvider walksProvider
      */
+    #[DataProvider('walksProvider')]
     public function testWalker(string $dql, callable $configureQueryCallback, ?string $expectedSql, ?string $expectedError = null): void
     {
         if ($expectedError !== null) {
@@ -45,7 +45,7 @@ class UseIndexSqlWalkerTest extends TestCase
     /**
      * @return iterable<string, array{0: string, 1: callable(Query): void, 2?: string|null, 3?: string|null}>
      */
-    public function walksProvider(): iterable
+    public static function walksProvider(): iterable
     {
         $userSelectDql = sprintf('SELECT u FROM %s u', User::class);
 
@@ -263,7 +263,7 @@ class UseIndexSqlWalkerTest extends TestCase
         $config->setProxyDir('/tmp/doctrine');
         $config->setAutoGenerateProxyClasses(false);
         $config->setSecondLevelCacheEnabled(false);
-        $config->setMetadataDriverImpl(new AnnotationDriver(new AnnotationReader(), []));
+        $config->setMetadataDriverImpl(new AttributeDriver([__DIR__]));
 
         $eventManager = $this->createMock(EventManager::class);
         $connectionMock = $this->createMock(Connection::class);
@@ -273,7 +273,7 @@ class UseIndexSqlWalkerTest extends TestCase
         $connectionMock->method('getDatabasePlatform')
             ->willReturn(new MySQL80Platform());
 
-        return EntityManager::create(
+        return new EntityManager(
             $connectionMock,
             $config,
             $eventManager,
