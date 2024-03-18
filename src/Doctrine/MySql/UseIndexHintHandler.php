@@ -6,7 +6,6 @@ use Doctrine\ORM\Query\AST\SelectStatement;
 use LogicException;
 use ShipMonk\Doctrine\Walker\HintHandler;
 use ShipMonk\Doctrine\Walker\SqlNode;
-use function get_class;
 use function gettype;
 use function implode;
 use function is_a;
@@ -29,7 +28,7 @@ class UseIndexHintHandler extends HintHandler
         return [SqlNode::FromClause];
     }
 
-    public function processNode(string $sqlNode, string $sql): string
+    public function processNode(SqlNode $sqlNode, string $sql): string
     {
         $selfClass = static::class;
         $sqlWalker = $this->getDoctrineSqlWalker();
@@ -47,7 +46,7 @@ class UseIndexHintHandler extends HintHandler
         $hints = $this->getHintValue();
 
         if (!is_array($hints)) {
-            $type = is_object($hints) ? get_class($hints) : gettype($hints);
+            $type = is_object($hints) ? $hints::class : gettype($hints);
             throw new LogicException("Unexpected hint, expecting array of IndexHint objects, {$type} given");
         }
 
@@ -56,7 +55,7 @@ class UseIndexHintHandler extends HintHandler
 
         foreach ($hints as $index => $hint) {
             if (!$hint instanceof IndexHint) {
-                $type = is_object($hint) ? get_class($hint) : gettype($hint);
+                $type = is_object($hint) ? $hint::class : gettype($hint);
                 throw new LogicException("Unexpected hint, expecting array of IndexHint objects, element #{$index} is {$type}");
             }
 
