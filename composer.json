@@ -7,7 +7,7 @@
     "require": {
         "php": "^8.1",
         "doctrine/orm": "^3.0.0",
-        "shipmonk/doctrine-hint-driven-sql-walker": "dev-doctrine-orm-3"
+        "shipmonk/doctrine-hint-driven-sql-walker": "dev-master"
     },
     "require-dev": {
         "doctrine/collections": "^2.1",
