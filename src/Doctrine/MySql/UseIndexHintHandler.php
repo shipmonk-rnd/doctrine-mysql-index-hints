@@ -2,7 +2,9 @@
 
 namespace ShipMonk\Doctrine\MySql;
 
+use Doctrine\ORM\Query;
 use Doctrine\ORM\Query\AST\SelectStatement;
+use Doctrine\ORM\Query\Parser;
 use LogicException;
 use ShipMonk\Doctrine\Walker\HintHandler;
 use ShipMonk\Doctrine\Walker\SqlNode;
@@ -25,7 +27,7 @@ class UseIndexHintHandler extends HintHandler
      */
     public function getNodes(): array
     {
-        return [SqlNode::FromClause];
+        return [SqlNode::FromClause, SqlNode::SubselectFromClause];
     }
 
     public function processNode(SqlNode $sqlNode, string $sql): string
@@ -34,6 +36,18 @@ class UseIndexHintHandler extends HintHandler
         $sqlWalker = $this->getDoctrineSqlWalker();
         $query = $sqlWalker->getQuery();
         $platform = $query->getEntityManager()->getConnection()->getDatabasePlatform();
+        $dql = $query->getDQL();
+
+        if ($dql === null) {
+            throw new LogicException('Empty DQL query encountered');
+        }
+
+        $queryCopy = new Query($this->getDoctrineSqlWalker()->getEntityManager());
+        $queryCopy->setDQL($dql);
+        $parser = new Parser($queryCopy);
+
+        /** @var string $wholeSql */
+        $wholeSql = $parser->parse()->getSqlExecutor()->getSqlStatements();
 
         if (!is_a($platform, 'Doctrine\DBAL\Platforms\MySqlPlatform')) { // bypass platform MySqlPlatform => MySQLPlatform rename in dbal
             throw new LogicException("Only MySQL platform is supported, {$platform->getName()} given");
@@ -66,12 +80,12 @@ class UseIndexHintHandler extends HintHandler
                 : '\S+'; // doctrine always adds some alias
             $tableWithAliasRegex = "{$delimiter}{$tableName}\s+{$tableAlias}{$delimiter}i";
 
-            if (preg_match($tableWithAliasRegex, $sql) === 0) {
+            if (preg_match($tableWithAliasRegex, $wholeSql) === 0) {
                 $aliasInfo = $hint->getDqlAlias() !== null ? " with DQL alias {$hint->getDqlAlias()}" : '';
                 throw new LogicException("Invalid hint for index {$hint->getIndexName()}, table {$tableName}{$aliasInfo} is not present in the query.");
             }
 
-            if ($hint->getDqlAlias() === null && preg_match_all($tableWithAliasRegex, $sql) !== 1) {
+            if ($hint->getDqlAlias() === null && preg_match_all($tableWithAliasRegex, $wholeSql) !== 1) {
                 throw new LogicException("Invalid hint for index {$hint->getIndexName()}, table {$tableName} is present multiple times in the query, please specify DQL alias to apply index on a proper place.");
             }
 
