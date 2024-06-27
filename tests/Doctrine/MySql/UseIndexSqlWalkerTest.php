@@ -48,6 +48,7 @@ class UseIndexSqlWalkerTest extends TestCase
     public static function walksProvider(): iterable
     {
         $userSelectDql = sprintf('SELECT u FROM %s u', User::class);
+        $userSubselectDql = sprintf('SELECT u FROM %s u WHERE u.id = (SELECT u2.id FROM %s u2 WHERE u2.id = 1)', User::class, User::class);
 
         yield 'FROM - use single index' => [
             $userSelectDql,
@@ -179,6 +180,14 @@ class UseIndexSqlWalkerTest extends TestCase
                 . ' FROM user u0_ USE INDEX (IDX_FOO)'
                 . ' INNER JOIN account a1_ USE INDEX (IDX_BAR) ON u0_.account_id = a1_.id'
                 . ' INNER JOIN account a2_ ON u0_.id = a2_.manager_id',
+        ];
+
+        yield 'FROM in subselect' => [
+            $userSubselectDql,
+            static function (Query $query): void {
+                $query->setHint(UseIndexHintHandler::class, [IndexHint::use('IDX_FOO', User::TABLE_NAME, 'u2')]);
+            },
+            'SELECT u0_.id AS id_0, u0_.account_id AS account_id_1 FROM user u0_ WHERE u0_.id = (SELECT u1_.id FROM user u1_ USE INDEX (IDX_FOO) WHERE u1_.id = 1)',
         ];
 
         yield 'no hint' => [
