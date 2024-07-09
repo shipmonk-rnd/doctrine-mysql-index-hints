@@ -48,7 +48,10 @@ class UseIndexSqlWalkerTest extends TestCase
     public static function walksProvider(): iterable
     {
         $userSelectDql = sprintf('SELECT u FROM %s u', User::class);
-        $userSubselectDql = sprintf('SELECT u FROM %s u WHERE u.id = (SELECT u2.id FROM %s u2 WHERE u2.id = 1)', User::class, User::class);
+        $userSelectWithJoinsDql = sprintf('SELECT u FROM %s u JOIN u.account a JOIN u.managedAccounts ma', User::class);
+        $userSubselectInWhereDql = sprintf('SELECT u FROM %s u WHERE u.id = (SELECT u2.id FROM %s u2 WHERE u2.id = 1)', User::class, User::class);
+        $userSubselectInSelectDql = sprintf('SELECT u, (SELECT u2.id FROM %s u2 WHERE u2.id = 1) as uu FROM %s u', User::class, User::class);
+        $userSubselectInSelectDql2 = sprintf('SELECT (SELECT u2.id FROM %s u2 WHERE u2.id = 1) as uu FROM %s u', User::class, User::class);
 
         yield 'FROM - use single index' => [
             $userSelectDql,
@@ -101,9 +104,6 @@ class UseIndexSqlWalkerTest extends TestCase
             },
             'SELECT u0_.id AS id_0, u0_.account_id AS account_id_1 FROM user u0_ IGNORE INDEX (IDX_FOO, IDX_BAR)',
         ];
-
-        $userSelectWithJoinsDql = sprintf('SELECT u FROM %s u JOIN u.account a JOIN u.managedAccounts ma', User::class);
-
         yield 'JOIN - one single use index' => [
             $userSelectWithJoinsDql,
             static function (Query $query): void {
@@ -183,11 +183,27 @@ class UseIndexSqlWalkerTest extends TestCase
         ];
 
         yield 'FROM in subselect' => [
-            $userSubselectDql,
+            $userSubselectInWhereDql,
             static function (Query $query): void {
                 $query->setHint(UseIndexHintHandler::class, [IndexHint::use('IDX_FOO', User::TABLE_NAME, 'u2')]);
             },
             'SELECT u0_.id AS id_0, u0_.account_id AS account_id_1 FROM user u0_ WHERE u0_.id = (SELECT u1_.id FROM user u1_ USE INDEX (IDX_FOO) WHERE u1_.id = 1)',
+        ];
+
+        yield 'subselect and hint in main query' => [
+            $userSubselectInSelectDql,
+            static function (Query $query): void {
+                $query->setHint(UseIndexHintHandler::class, [IndexHint::use('IDX_FOO', User::TABLE_NAME, 'u')]);
+            },
+            'SELECT u0_.id AS id_0, (SELECT u1_.id FROM user u1_ WHERE u1_.id = 1) AS sclr_1, u0_.account_id AS account_id_2 FROM user u0_ USE INDEX (IDX_FOO)',
+        ];
+
+        yield 'subselect and hint in main query 2' => [
+            $userSubselectInSelectDql2,
+            static function (Query $query): void {
+                $query->setHint(UseIndexHintHandler::class, [IndexHint::use('IDX_FOO', User::TABLE_NAME, 'u')]);
+            },
+            'SELECT (SELECT u0_.id FROM user u0_ WHERE u0_.id = 1) AS sclr_0 FROM user u1_ USE INDEX (IDX_FOO)',
         ];
 
         yield 'no hint' => [
