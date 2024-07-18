@@ -12,6 +12,7 @@ $ciTools = [
     'phpstan/phpstan-phpunit',
     'phpstan/phpstan-strict-rules',
     'shipmonk/composer-dependency-analyser',
+    'shipmonk/dead-code-detector',
     'shipmonk/phpstan-rules',
     'slevomat/coding-standard',
 ];

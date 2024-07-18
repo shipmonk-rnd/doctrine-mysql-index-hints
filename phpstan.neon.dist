@@ -5,6 +5,7 @@ includes:
     - ./vendor/phpstan/phpstan-phpunit/extension.neon
     - ./vendor/phpstan/phpstan-phpunit/rules.neon
     - ./vendor/shipmonk/phpstan-rules/rules.neon
+    - ./vendor/shipmonk/dead-code-detector/rules.neon
 
 parameters:
     phpVersion: 80100
@@ -27,3 +28,8 @@ parameters:
         classSuffixNaming:
             superclassToSuffixMapping:
                 \PHPUnit\Framework\TestCase: Test
+
+    shipmonkDeadCode:
+        entrypoints:
+            phpunit:
+                enabled: true
