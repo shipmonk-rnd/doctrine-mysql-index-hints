@@ -119,8 +119,3 @@ $result = $em->createQueryBuilder()
     ->getResult();
 ```
 
-### Versions
-- 1.x requires PHP >= 7.1
-- 2.x requires PHP >= 7.4
-- 3.x requires PHP >= 7.4
-- 4.x requires PHP >= 8.1
