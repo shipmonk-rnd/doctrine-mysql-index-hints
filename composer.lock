@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ab6c3f6d5d1d622a0e2163becc12c173",
+    "content-hash": "535a8ddca8d020e874e01f0bca717450",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -1014,16 +1014,16 @@
         },
         {
             "name": "shipmonk/doctrine-hint-driven-sql-walker",
-            "version": "dev-master",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/shipmonk-rnd/doctrine-hint-driven-sql-walker.git",
-                "reference": "d68252969db79e60f2fbf3d0756b75a79b0ac6bf"
+                "reference": "97878b1ced8a2c0b1021b068c8fd54bb27bbee76"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shipmonk-rnd/doctrine-hint-driven-sql-walker/zipball/d68252969db79e60f2fbf3d0756b75a79b0ac6bf",
-                "reference": "d68252969db79e60f2fbf3d0756b75a79b0ac6bf",
+                "url": "https://api.github.com/repos/shipmonk-rnd/doctrine-hint-driven-sql-walker/zipball/97878b1ced8a2c0b1021b068c8fd54bb27bbee76",
+                "reference": "97878b1ced8a2c0b1021b068c8fd54bb27bbee76",
                 "shasum": ""
             },
             "require": {
@@ -1034,16 +1034,15 @@
                 "doctrine/dbal": "^4.0",
                 "doctrine/event-manager": "^2.0",
                 "editorconfig-checker/editorconfig-checker": "^10.6.0",
-                "ergebnis/composer-normalize": "^2.42.0",
-                "phpstan/phpstan": "^1.10.67",
-                "phpstan/phpstan-phpunit": "^1.3.16",
-                "phpstan/phpstan-strict-rules": "^1.5.5",
-                "phpunit/phpunit": "^10.5.20",
+                "ergebnis/composer-normalize": "^2.43.0",
+                "phpstan/phpstan": "^1.11.5",
+                "phpstan/phpstan-phpunit": "^1.4.0",
+                "phpstan/phpstan-strict-rules": "^1.6.0",
+                "phpunit/phpunit": "^10.5.24",
                 "shipmonk/composer-dependency-analyser": "^1.5.3",
-                "shipmonk/phpstan-rules": "^2.12",
+                "shipmonk/phpstan-rules": "^3.0",
                 "slevomat/coding-standard": "^8.15.0"
             },
-            "default-branch": true,
             "type": "library",
             "autoload": {
                 "psr-4": {
@@ -1057,9 +1056,9 @@
             "description": "Doctrine's SqlWalker that allows hooking multiple handlers via ->setHint() while each can edit produced SQL or its part.",
             "support": {
                 "issues": "https://github.com/shipmonk-rnd/doctrine-hint-driven-sql-walker/issues",
-                "source": "https://github.com/shipmonk-rnd/doctrine-hint-driven-sql-walker/tree/master"
+                "source": "https://github.com/shipmonk-rnd/doctrine-hint-driven-sql-walker/tree/2.0.0"
             },
-            "time": "2024-05-01T20:25:52+00:00"
+            "time": "2024-08-08T12:52:14+00:00"
         },
         {
             "name": "symfony/console",
@@ -4620,7 +4619,6 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "shipmonk/doctrine-hint-driven-sql-walker": 20,
         "shipmonk/dead-code-detector": 20
     },
     "prefer-stable": false,
