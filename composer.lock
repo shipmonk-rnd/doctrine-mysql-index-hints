@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "535a8ddca8d020e874e01f0bca717450",
+    "content-hash": "62b42c5814cc23a70e07b45e3628d52d",
     "packages": [
         {
             "name": "doctrine/cache",
@@ -4306,12 +4306,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/shipmonk-rnd/dead-code-detector.git",
-                "reference": "1ce9e1f51dabbdb8b30758d0b5ff6fac9131cae3"
+                "reference": "a718a55ae62aff39ca11caa54cb9a930118af8d7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/shipmonk-rnd/dead-code-detector/zipball/1ce9e1f51dabbdb8b30758d0b5ff6fac9131cae3",
-                "reference": "1ce9e1f51dabbdb8b30758d0b5ff6fac9131cae3",
+                "url": "https://api.github.com/repos/shipmonk-rnd/dead-code-detector/zipball/a718a55ae62aff39ca11caa54cb9a930118af8d7",
+                "reference": "a718a55ae62aff39ca11caa54cb9a930118af8d7",
                 "shasum": ""
             },
             "require": {
@@ -4319,15 +4319,17 @@
                 "phpstan/phpstan": "^1.11.0"
             },
             "require-dev": {
+                "doctrine/orm": "^2.19 || ^3.0",
                 "editorconfig-checker/editorconfig-checker": "^10.3.0",
                 "ergebnis/composer-normalize": "^2.28",
                 "phpstan/phpstan-phpunit": "^1.1.1",
                 "phpstan/phpstan-strict-rules": "^1.2.3",
+                "phpstan/phpstan-symfony": "^1.4",
                 "phpunit/phpunit": "^9.5.20",
                 "shipmonk/composer-dependency-analyser": "^1.6",
                 "shipmonk/name-collision-detector": "^2.0.0",
                 "shipmonk/phpstan-rules": "^3.1",
-                "slevomat/coding-standard": "^8.0.1",
+                "slevomat/coding-standard": "^8.15.0",
                 "symfony/contracts": "^2.5 || ^3.0",
                 "symfony/event-dispatcher": "^5.4 || ^6.0 || ^7.0",
                 "symfony/routing": "^5.4 || ^6.0 || ^7.0"
@@ -4361,7 +4363,7 @@
                 "issues": "https://github.com/shipmonk-rnd/dead-code-detector/issues",
                 "source": "https://github.com/shipmonk-rnd/dead-code-detector/tree/master"
             },
-            "time": "2024-07-17T11:49:59+00:00"
+            "time": "2024-08-06T14:04:10+00:00"
         },
         {
             "name": "shipmonk/phpstan-rules",
