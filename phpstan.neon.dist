@@ -29,11 +29,6 @@ parameters:
             superclassToSuffixMapping:
                 \PHPUnit\Framework\TestCase: Test
 
-    shipmonkDeadCode:
-        entrypoints:
-            phpunit:
-                enabled: true
-
     ignoreErrors:
         - '#^Unused ShipMonk\\Doctrine\\MySql\\Account\:\:__construct$#'
         - '#^Unused ShipMonk\\Doctrine\\MySql\\User\:\:__construct$#'
