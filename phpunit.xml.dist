@@ -6,12 +6,27 @@
         beStrictAboutOutputDuringTests="true"
         beStrictAboutChangesToGlobalState="true"
         beStrictAboutCoverageMetadata="true"
-        beStrictAboutTodoAnnotatedTests="true"
+        beStrictAboutTestsThatDoNotTestAnything="true"
         failOnRisky="true"
+        failOnIncomplete="true"
+        failOnDeprecation="true"
+        failOnNotice="true"
         failOnWarning="true"
+
+        displayDetailsOnTestsThatTriggerDeprecations="true"
+        displayDetailsOnTestsThatTriggerNotices="true"
+        displayDetailsOnTestsThatTriggerWarnings="true"
+        displayDetailsOnTestsThatTriggerErrors="true"
+
         cacheDirectory="cache/phpunit"
 >
     <php>
         <ini name="error_reporting" value="-1"/>
+        <env name="DOCTRINE_DEPRECATIONS" value="trigger"/>
     </php>
+    <source ignoreSuppressionOfDeprecations="true">
+        <include>
+            <directory>tests</directory>
+        </include>
+    </source>
 </phpunit>
