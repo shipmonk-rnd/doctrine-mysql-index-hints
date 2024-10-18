@@ -96,7 +96,6 @@ JOIN account a2_ ON (...)
 ```
 
 ### Advanced usage notes
-- Even `UPDATE` and `DELETE` queries are supported
 - Subselects are also supported
 - It works even for tables that are not present in the DQL, but are present in SQL!
     - For example parent table from [class table inheritance](https://www.doctrine-project.org/projects/doctrine-orm/en/2.9/reference/inheritance-mapping.html#class-table-inheritance) when selecting children
