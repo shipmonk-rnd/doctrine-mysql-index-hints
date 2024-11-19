@@ -16,6 +16,7 @@ use function preg_match;
 use function preg_match_all;
 use function preg_quote;
 use function preg_replace;
+use function sprintf;
 
 class UseIndexHintHandler extends HintHandler
 {
@@ -35,8 +36,8 @@ class UseIndexHintHandler extends HintHandler
         $query = $sqlWalker->getQuery();
         $platform = $query->getEntityManager()->getConnection()->getDatabasePlatform();
 
-        if (!is_a($platform, 'Doctrine\DBAL\Platforms\MySqlPlatform')) { // bypass platform MySqlPlatform => MySQLPlatform rename in dbal
-            throw new LogicException("Only MySQL platform is supported, {$platform->getName()} given");
+        if (!is_a($platform, 'Doctrine\DBAL\Platforms\AbstractMySQLPlatform')) {
+            throw new LogicException(sprintf('Only MySQL platform is supported, %s given', $platform::class));
         }
 
         if (!$query->getAST() instanceof SelectStatement) {
