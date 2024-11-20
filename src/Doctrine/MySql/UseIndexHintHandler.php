@@ -2,7 +2,6 @@
 
 namespace ShipMonk\Doctrine\MySql;
 
-use Doctrine\DBAL\Platforms\AbstractMySQLPlatform;
 use Doctrine\ORM\Query\AST\SelectStatement;
 use LogicException;
 use ShipMonk\Doctrine\Walker\HintHandler;
@@ -37,7 +36,7 @@ class UseIndexHintHandler extends HintHandler
         $query = $sqlWalker->getQuery();
         $platform = $query->getEntityManager()->getConnection()->getDatabasePlatform();
 
-        if (!is_a($platform, AbstractMySQLPlatform::class)) {
+        if (!is_a($platform, 'Doctrine\DBAL\Platforms\AbstractMySQLPlatform')) {
             throw new LogicException(sprintf('Only MySQL platform is supported, %s given', $platform::class));
         }
 
