@@ -13,7 +13,12 @@ class IndexHint
 
     private ?string $dqlAlias;
 
-    private function __construct(string $type, string $indexName, string $tableName, ?string $dqlAlias)
+    private function __construct(
+        string $type,
+        string $indexName,
+        string $tableName,
+        ?string $dqlAlias,
+    )
     {
         $this->type = $type;
         $this->indexName = $indexName;
@@ -21,17 +26,29 @@ class IndexHint
         $this->dqlAlias = $dqlAlias;
     }
 
-    public static function use(string $indexName, string $tableName, ?string $dqlAlias = null): self
+    public static function use(
+        string $indexName,
+        string $tableName,
+        ?string $dqlAlias = null,
+    ): self
     {
         return new self('USE', $indexName, $tableName, $dqlAlias);
     }
 
-    public static function force(string $indexName, string $tableName, ?string $dqlAlias = null): self
+    public static function force(
+        string $indexName,
+        string $tableName,
+        ?string $dqlAlias = null,
+    ): self
     {
         return new self('FORCE', $indexName, $tableName, $dqlAlias);
     }
 
-    public static function ignore(string $indexName, string $tableName, ?string $dqlAlias = null): self
+    public static function ignore(
+        string $indexName,
+        string $tableName,
+        ?string $dqlAlias = null,
+    ): self
     {
         return new self('IGNORE', $indexName, $tableName, $dqlAlias);
     }

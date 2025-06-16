@@ -35,7 +35,10 @@ class User
     #[OneToMany(targetEntity: Account::class, mappedBy: 'manager')]
     public Collection $managedAccounts;
 
-    public function __construct(int $id, Account $account)
+    public function __construct(
+        int $id,
+        Account $account,
+    )
     {
         $this->id = $id;
         $this->account = $account;
