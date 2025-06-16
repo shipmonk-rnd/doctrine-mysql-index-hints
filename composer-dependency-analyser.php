@@ -11,10 +11,10 @@ $ciTools = [
     'phpstan/phpstan',
     'phpstan/phpstan-phpunit',
     'phpstan/phpstan-strict-rules',
+    'shipmonk/coding-standard',
     'shipmonk/composer-dependency-analyser',
     'shipmonk/dead-code-detector',
     'shipmonk/phpstan-rules',
-    'slevomat/coding-standard',
 ];
 
 return $config
