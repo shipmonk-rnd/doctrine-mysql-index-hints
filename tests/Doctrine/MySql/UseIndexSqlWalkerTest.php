@@ -23,7 +23,12 @@ class UseIndexSqlWalkerTest extends TestCase
      * @param callable(Query): void $configureQueryCallback
      */
     #[DataProvider('walksProvider')]
-    public function testWalker(string $dql, callable $configureQueryCallback, ?string $expectedSql, ?string $expectedError = null): void
+    public function testWalker(
+        string $dql,
+        callable $configureQueryCallback,
+        ?string $expectedSql,
+        ?string $expectedError = null,
+    ): void
     {
         if ($expectedError !== null) {
             $this->expectException(LogicException::class);

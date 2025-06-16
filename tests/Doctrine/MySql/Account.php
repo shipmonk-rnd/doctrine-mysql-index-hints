@@ -26,7 +26,10 @@ class Account
     #[JoinColumn(nullable: false)]
     public User $manager;
 
-    public function __construct(int $id, User $manager)
+    public function __construct(
+        int $id,
+        User $manager,
+    )
     {
         $this->id = $id;
         $this->manager = $manager;
