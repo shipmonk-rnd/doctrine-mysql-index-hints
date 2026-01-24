@@ -11,7 +11,7 @@
     },
     "require-dev": {
         "doctrine/collections": "^2.1",
-        "doctrine/dbal": "^3.7",
+        "doctrine/dbal": "^3.7 || ^4.0",
         "doctrine/event-manager": "^2.0",
         "editorconfig-checker/editorconfig-checker": "^10.7.0",
         "ergebnis/composer-normalize": "^2.47.0",

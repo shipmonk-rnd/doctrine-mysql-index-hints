@@ -14,7 +14,9 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 use ShipMonk\Doctrine\Walker\HintDrivenSqlWalker;
 use stdClass;
+use function method_exists;
 use function sprintf;
+use const PHP_VERSION_ID;
 
 class UseIndexSqlWalkerTest extends TestCase
 {
@@ -213,7 +215,7 @@ class UseIndexSqlWalkerTest extends TestCase
 
         yield 'no hint' => [
             $userSelectDql,
-            static function (Query $query): void {
+            static function (): void {
             },
             null,
             '~no HintHandler child was added as hint~',
@@ -295,10 +297,17 @@ class UseIndexSqlWalkerTest extends TestCase
         $config->setSecondLevelCacheEnabled(false);
         $config->setMetadataDriverImpl(new AttributeDriver([__DIR__]));
 
+        if (PHP_VERSION_ID > 8_04_00 && method_exists($config, 'enableNativeLazyObjects')) { // @phpstan-ignore function.alreadyNarrowedType
+            $config->enableNativeLazyObjects(true);
+        }
+
         $eventManager = $this->createMock(EventManager::class);
         $connectionMock = $this->createMock(Connection::class);
-        $connectionMock->method('getEventManager')
-            ->willReturn($eventManager);
+
+        if (method_exists(Connection::class, 'getEventManager')) {
+            $connectionMock->method('getEventManager') // @phpstan-ignore phpunit.mockMethod
+                ->willReturn($eventManager);
+        }
 
         $connectionMock->method('getDatabasePlatform')
             ->willReturn(new MySQL80Platform());
