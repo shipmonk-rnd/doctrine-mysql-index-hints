@@ -85,7 +85,7 @@ class UseIndexHintHandler extends HintHandler
         foreach ($replacements as $tableRegex => $indexHints) {
             foreach ($indexHints as $indexType => $indexNames) {
                 $indexList = implode(', ', $indexNames);
-                $sqlWithIndexHints = preg_replace($tableRegex, "\\0 {$indexType} INDEX ({$indexList})", $sql);
+                $sqlWithIndexHints = preg_replace($tableRegex, "\\0 {$indexType} ({$indexList})", $sql);
 
                 if ($sqlWithIndexHints === null) {
                     throw new LogicException('Regex replace failure: ' . preg_last_error());

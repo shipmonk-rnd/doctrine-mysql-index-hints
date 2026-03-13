@@ -32,7 +32,7 @@ class IndexHint
         ?string $dqlAlias = null,
     ): self
     {
-        return new self('USE', $indexName, $tableName, $dqlAlias);
+        return new self('USE INDEX', $indexName, $tableName, $dqlAlias);
     }
 
     public static function force(
@@ -41,7 +41,7 @@ class IndexHint
         ?string $dqlAlias = null,
     ): self
     {
-        return new self('FORCE', $indexName, $tableName, $dqlAlias);
+        return new self('FORCE INDEX', $indexName, $tableName, $dqlAlias);
     }
 
     public static function ignore(
@@ -50,7 +50,16 @@ class IndexHint
         ?string $dqlAlias = null,
     ): self
     {
-        return new self('IGNORE', $indexName, $tableName, $dqlAlias);
+        return new self('IGNORE INDEX', $indexName, $tableName, $dqlAlias);
+    }
+
+    public static function forceForJoin(
+        string $indexName,
+        string $tableName,
+        ?string $dqlAlias = null,
+    ): self
+    {
+        return new self('FORCE INDEX FOR JOIN', $indexName, $tableName, $dqlAlias);
     }
 
     public function getType(): string

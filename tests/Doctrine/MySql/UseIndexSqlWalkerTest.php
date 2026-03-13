@@ -111,6 +111,51 @@ class UseIndexSqlWalkerTest extends TestCase
             },
             'SELECT u0_.id AS id_0, u0_.account_id AS account_id_1 FROM user u0_ IGNORE INDEX (IDX_FOO, IDX_BAR)',
         ];
+        yield 'JOIN - force for join single index' => [
+            $userSelectWithJoinsDql,
+            static function (Query $query): void {
+                $query->setHint(
+                    UseIndexHintHandler::class,
+                    [IndexHint::forceForJoin('IDX_FOO', Account::TABLE_NAME, 'a')],
+                );
+            },
+            'SELECT u0_.id AS id_0, u0_.account_id AS account_id_1'
+                . ' FROM user u0_'
+                . ' INNER JOIN account a1_ FORCE INDEX FOR JOIN (IDX_FOO) ON u0_.account_id = a1_.id'
+                . ' INNER JOIN account a2_ ON u0_.id = a2_.manager_id',
+        ];
+        yield 'JOIN - force for join multiple indexes' => [
+            $userSelectWithJoinsDql,
+            static function (Query $query): void {
+                $query->setHint(
+                    UseIndexHintHandler::class,
+                    [
+                        IndexHint::forceForJoin('IDX_FOO', Account::TABLE_NAME, 'a'),
+                        IndexHint::forceForJoin('IDX_BAR', Account::TABLE_NAME, 'a'),
+                    ],
+                );
+            },
+            'SELECT u0_.id AS id_0, u0_.account_id AS account_id_1'
+                . ' FROM user u0_'
+                . ' INNER JOIN account a1_ FORCE INDEX FOR JOIN (IDX_FOO, IDX_BAR) ON u0_.account_id = a1_.id'
+                . ' INNER JOIN account a2_ ON u0_.id = a2_.manager_id',
+        ];
+        yield 'JOIN - combine force index on FROM with force index for join on JOIN' => [
+            $userSelectWithJoinsDql,
+            static function (Query $query): void {
+                $query->setHint(
+                    UseIndexHintHandler::class,
+                    [
+                        IndexHint::force('IDX_FOO', User::TABLE_NAME),
+                        IndexHint::forceForJoin('IDX_BAR', Account::TABLE_NAME, 'a'),
+                    ],
+                );
+            },
+            'SELECT u0_.id AS id_0, u0_.account_id AS account_id_1'
+                . ' FROM user u0_ FORCE INDEX (IDX_FOO)'
+                . ' INNER JOIN account a1_ FORCE INDEX FOR JOIN (IDX_BAR) ON u0_.account_id = a1_.id'
+                . ' INNER JOIN account a2_ ON u0_.id = a2_.manager_id',
+        ];
         yield 'JOIN - one single use index' => [
             $userSelectWithJoinsDql,
             static function (Query $query): void {
