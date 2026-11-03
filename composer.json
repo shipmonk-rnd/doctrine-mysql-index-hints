@@ -59,6 +59,11 @@
         "check:ec": "ec src tests",
         "check:tests": "phpunit tests",
         "check:types": "phpstan analyse -vvv",
+        "fix": [
+            "@fix:composer",
+            "@fix:cs"
+        ],
+        "fix:composer": "composer-normalizer",
         "fix:cs": "phpcbf"
     }
 }
