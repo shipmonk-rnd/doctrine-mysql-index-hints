@@ -7,12 +7,12 @@ $config = new Configuration();
 
 $ciTools = [
     'editorconfig-checker/editorconfig-checker',
-    'ergebnis/composer-normalize',
     'phpstan/phpstan',
     'phpstan/phpstan-phpunit',
     'phpstan/phpstan-strict-rules',
     'shipmonk/coding-standard',
     'shipmonk/composer-dependency-analyser',
+    'shipmonk/composer-normalizer',
     'shipmonk/dead-code-detector',
     'shipmonk/phpstan-rules',
 ];
